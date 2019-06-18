@@ -13,7 +13,7 @@
 	<annotation-driven />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/**" location="/resources/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -22,7 +22,34 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.board.app" />
+	<context:component-scan base-package="com.board.dao" />
 	
+	<beans:bean id="sessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<beans:constructor-arg ref="sessionFactory"/>
+	</beans:bean>
 	
+	<beans:bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource"/>
+		<!-- MyBatis 환경설정파일 -->
+		<beans:property name="configLocation" value="classpath:/myBatis-config.xml"/>
+		<!-- 런타임 시 SqlSessionFactory에 MyBatis mapper 파일들의 경로가 설정된다. -->
+        <beans:property name="mapperLocations" value="classpath:/com/codi/mybatis/**/*.xml" />
+	</beans:bean>
+	
+	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<beans:property name="url" value="jdbc:oracle:thin:localhost:1521:TestDB"/>
+		<beans:property name="username" value="SHOPADMIN"/>
+		<beans:property name="password" value="A123"/>	
+	</beans:bean>
+	
+	<beans:bean id="myUtil" class="com.board.util.MyUtil"/>
+	
+	<beans:bean id="multipartResolver"
+	class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10240000"/>
+		<beans:property name="maxInMemorySize" value="1024000"/>
+		<beans:property name="defaultEncoding" value="UTF-8"/>
+	</beans:bean>
 	
 </beans:beans>
