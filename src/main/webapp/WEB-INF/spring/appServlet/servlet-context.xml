@@ -33,14 +33,14 @@
 		<!-- MyBatis 환경설정파일 -->
 		<beans:property name="configLocation" value="classpath:/myBatis-config.xml"/>
 		<!-- 런타임 시 SqlSessionFactory에 MyBatis mapper 파일들의 경로가 설정된다. -->
-        <beans:property name="mapperLocations" value="classpath:/com/codi/mybatis/**/*.xml" />
+        <beans:property name="mapperLocations" value="classpath:/com/board/mybatis/**/*.xml" />
 	</beans:bean>
 	
 	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-		<beans:property name="url" value="jdbc:oracle:thin:localhost:1521:TestDB"/>
-		<beans:property name="username" value="SHOPADMIN"/>
-		<beans:property name="password" value="A123"/>	
+		<beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
+		<beans:property name="username" value="spring"/>
+		<beans:property name="password" value="spring01"/>	
 	</beans:bean>
 	
 	<beans:bean id="myUtil" class="com.board.util.MyUtil"/>
