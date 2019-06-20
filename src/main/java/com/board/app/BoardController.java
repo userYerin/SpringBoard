@@ -2,7 +2,9 @@ package com.board.app;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -31,7 +33,7 @@ public class BoardController {
 	
 	//글 작성하기
 	@RequestMapping(value = "/board/boardWrited.action", method = {RequestMethod.POST, RequestMethod.GET})
-	public String questionCreated(BoardDTO dto,HttpServletRequest request) throws IOException{
+	public String boardWrited(BoardDTO dto,HttpServletRequest request) throws IOException{
 			
 		if(dto==null||dto.getMode()==null||dto.getMode().equals("")){
 				
@@ -46,9 +48,19 @@ public class BoardController {
 		
 	}
 	
+	@RequestMapping(value = "/board/boardWrited_ok.action", method = {RequestMethod.POST, RequestMethod.GET})
+	public String boardWrited_ok(BoardDTO dto,HttpServletRequest request) throws IOException{
+			
+		dto.setBno(dao.getMaxNum()+1);
+		dao.insertBoard(dto);
+			
+		return "redirect:/board/boardMain.action";
+		
+	}
+	
 	//글 리스트
 	@RequestMapping(value = "/board/boardMain.action", method = {RequestMethod.POST, RequestMethod.GET})
-	public String questionMain(HttpServletRequest request,HttpSession session) throws IOException{
+	public String boardMain(HttpServletRequest request,HttpSession session) throws IOException{
 		
 		String cp = request.getContextPath();
 		String pageNum = request.getParameter("pageNum");
