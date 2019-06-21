@@ -16,6 +16,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	values (#{bno},#{title},#{content},#{writer},sysdate,0)
 </insert>
 
+<!-- 게시글 수정 -->
+<update id="updateBoard" parameterType="hashMap">
+	update tbl_board set title=#{title},content=#{content},writer=#{writer}
+	where bno=#{bno}
+</update>
+
 <!-- 게시물 갯수 -->
 <select id="getDataCount" resultType="int">
 	select nvl(count(*),0) from tbl_board
@@ -30,6 +36,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <![CDATA[
 	where rnum>=#{start} and rnum<=#{end}
 ]]>
+</select>
+
+<!-- viewcnt 1증가 -->
+<update id="cntUp" parameterType="int">
+	update tbl_board set viewcnt=viewcnt+1
+	where bno=#{bno}
+</update>
+
+<!-- 게시글 -->
+<select id="getOne" parameterType="int" resultType="com.board.dto.BoardDTO">
+	select bno,title,content,writer,to_char(regdate,'YYYY/MM/DD') regdate,viewcnt 
+	from tbl_board where bno=#{bno}
 </select>
 
 </mapper>

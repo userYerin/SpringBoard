@@ -31,6 +31,17 @@ public class BoardDAO {
 		sessionTemplate.insert("boardMapper.insertBoard",dto);
 	}
 	
+	//게시물 수정
+	public void updateBoard(BoardDTO dto) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("bno", dto.getBno());
+		params.put("title", dto.getTitle());
+		params.put("content", dto.getContent());
+		params.put("writer", dto.getWriter());
+		
+		sessionTemplate.update("boardMapper.updateBoard",params);
+	}
+	
 	//게시물 갯수
 	public int getDataCount(){
 		int count = 0;
@@ -47,4 +58,16 @@ public class BoardDAO {
 		List<BoardDTO> lists = sessionTemplate.selectList("boardMapper.getLists",params);
 		return lists;
 	}
+	
+	//viewcnt 1 증가
+	public void cntUp(int bno) {
+		sessionTemplate.update("boardMapper.cntUp",bno);
+	}
+	
+	//게시물 보기
+	public BoardDTO getOne(int bno) {
+		BoardDTO dto = sessionTemplate.selectOne("boardMapper.getOne",bno);
+		return dto;
+	}
+	
 }

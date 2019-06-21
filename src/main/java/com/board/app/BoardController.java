@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.board.dao.BoardDAO;
 import com.board.dto.BoardDTO;
@@ -40,8 +41,12 @@ public class BoardController {
 			request.setAttribute("mode", "created");
 			
 		}else {
+			BoardDTO board = dao.getOne(dto.getBno());			
+			board.setContent(board.getContent().replaceAll("\n", "<br/>"));
+			
 			request.setAttribute("mode", "updated");
-			request.setAttribute("dto",dto);
+			request.setAttribute("pageNum", request.getParameter("pageNum"));
+			request.setAttribute("dto",board);
 		}
 			
 		return "board/boardWrited";
@@ -53,6 +58,18 @@ public class BoardController {
 			
 		dto.setBno(dao.getMaxNum()+1);
 		dao.insertBoard(dto);
+		
+		return "redirect:/board/boardMain.action";
+		
+	}
+	
+	//게시글 수정
+	@RequestMapping(value = "/board/boardUpdated_ok.action", method = {RequestMethod.POST, RequestMethod.GET})
+	public String boardUpdated_ok(BoardDTO dto,HttpServletRequest request, RedirectAttributes redirect) throws IOException{
+		
+		dao.updateBoard(dto);
+		
+		redirect.addAttribute("pageNum", request.getParameter("pageNum"));
 			
 		return "redirect:/board/boardMain.action";
 		
@@ -94,5 +111,27 @@ public class BoardController {
 		request.setAttribute("pageNum", pageNum);
 		
 		return "board/boardMain";
+	}
+	
+	//게시글
+	@RequestMapping(value = "/board/boardArticle.action", method = {RequestMethod.POST, RequestMethod.GET})
+	public String boardArticle(HttpServletRequest request) throws IOException{
+		
+		int bno = Integer.parseInt(request.getParameter("bno"));
+		String pageNum = request.getParameter("pageNum");
+		
+		//조회수 증가
+		dao.cntUp(bno);
+		
+		BoardDTO dto  = dao.getOne(bno);
+		
+		dto.setContent(dto.getContent().replaceAll("\n", "<br/>"));
+		
+		
+		request.setAttribute("dto", dto);
+		request.setAttribute("pageNum", pageNum);
+		
+		return "board/boardArticle";
+		
 	}
 }

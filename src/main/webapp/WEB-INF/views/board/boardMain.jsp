@@ -42,6 +42,11 @@ dt {
 	border: 1px solid #000000;
 }
 
+a {
+	color: #000000;
+	text-decoration: none;
+}
+
 </style>
 
 </head>
@@ -76,8 +81,8 @@ dt {
 		<tbody id="paging">
 		<c:forEach var="dto" items="${lists }">
 		<tr style="text-align: center;">
-			<td>${dto.bno }</td>
-			<td>${dto.title }</td>
+			<td><a href="<%=cp%>/board/boardArticle.action?bno=${dto.bno}&pageNum=${pageNum}">${dto.bno }</a></td>
+			<td><a href="<%=cp%>/board/boardArticle.action?bno=${dto.bno}&pageNum=${pageNum}">${dto.title }</a></td>
 			<td>${dto.writer }</td>
 			<td>${dto.regdate }</td>
 			<td>${dto.viewcnt }</td>
