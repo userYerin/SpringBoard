@@ -70,4 +70,9 @@ public class BoardDAO {
 		return dto;
 	}
 	
+	//게시물 삭제
+	public void deleteBoard(int bno) {
+		sessionTemplate.delete("boardMapper.deleteBoard",bno);
+	}
+	
 }

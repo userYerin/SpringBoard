@@ -134,4 +134,17 @@ public class BoardController {
 		return "board/boardArticle";
 		
 	}
+	
+	//게시글 삭제
+	@RequestMapping(value = "/board/boardDelete.action", method = {RequestMethod.POST, RequestMethod.GET})
+	public String boardDelete(HttpServletRequest request, RedirectAttributes redirect) throws IOException{
+		
+		int bno = Integer.parseInt(request.getParameter("bno"));
+		dao.deleteBoard(bno);
+		
+		redirect.addAttribute("pageNum", request.getParameter("pageNum"));
+		
+		return "redirect:/board/boardMain.action";
+		
+	}
 }

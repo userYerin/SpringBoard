@@ -50,4 +50,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	from tbl_board where bno=#{bno}
 </select>
 
+<!-- 게시글 삭제 -->
+<delete id="deleteBoard" parameterType="int">
+	delete tbl_board where bno=#{bno}
+</delete>
+
+
 </mapper>
