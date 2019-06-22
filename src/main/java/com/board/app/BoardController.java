@@ -84,7 +84,7 @@ public class BoardController {
 		
 		int currentPage = 1;
 
-		if (pageNum != null)
+		if (pageNum != null && !pageNum.equals(""))
 			currentPage = Integer.parseInt(pageNum);
 
 		int dataCount = dao.getDataCount();
@@ -119,6 +119,10 @@ public class BoardController {
 		
 		int bno = Integer.parseInt(request.getParameter("bno"));
 		String pageNum = request.getParameter("pageNum");
+		int currentPage = 1;
+
+		if (pageNum != null && !pageNum.equals(""))
+			currentPage = Integer.parseInt(pageNum);
 		
 		//조회수 증가
 		dao.cntUp(bno);
@@ -129,7 +133,7 @@ public class BoardController {
 		
 		
 		request.setAttribute("dto", dto);
-		request.setAttribute("pageNum", pageNum);
+		request.setAttribute("pageNum", currentPage);
 		
 		return "board/boardArticle";
 		
